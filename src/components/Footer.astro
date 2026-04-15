@@ -1,0 +1,49 @@
+---
+
+---
+
+<footer class="w-full mt-20 bg-surface-container">
+    <div class="flex flex-col items-center gap-4 pt-12 px-6 w-full">
+        <div class="font-headline text-lg italic text-primary">
+            The Veiled Pages
+        </div>
+        <div class="font-headline text-sm italic text-primary">
+            Unseen, unspoken, but not unfelt
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-8 pt-8 py-12 px-6 w-full">
+        <div
+            class="flex flex-wrap justify-center gap-8 font-label text-sm tracking-wide uppercase"
+        >
+            <a
+                class="text-on-surface-variant hover:text-tertiary transition-colors focus:underline decoration-tertiary/30"
+                href="#">Journal</a
+            >
+            <a
+                class="text-on-surface-variant hover:text-tertiary transition-colors focus:underline decoration-tertiary/30"
+                href="#">Newsletter</a
+            >
+            <a
+                class="text-on-surface-variant hover:text-tertiary transition-colors focus:underline decoration-tertiary/30"
+                href="#">Contact</a
+            >
+            <a
+                class="text-on-surface-variant hover:text-tertiary transition-colors focus:underline decoration-tertiary/30"
+                href="#">Privacy</a
+            >
+        </div>
+
+        <div class="w-24 h-[1px] bg-outline-variant/20"></div>
+        <p class="text-primary font-label text-xs opacity-60 text-center">
+        Copyright © <span id="copyright"></span>  | All rights reserved.
+        </p>
+    </div>
+</footer>
+
+<script>
+    const copyrightEl = document.querySelector<HTMLSpanElement>("#copyright");
+    if (copyrightEl) {
+        copyrightEl.textContent = new Date().getFullYear().toString();
+    }
+</script>
