@@ -59,6 +59,7 @@
   --color-inverse-primary: #f7e5d4;
 
   /* Border Radius */
+  --DEFAULT: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
@@ -69,14 +70,16 @@
   --font-label: 'Plus Jakarta Sans';
 }
 
-.material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-}
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: #fffbff;
      color: #393831;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    font-size: revert-layer;
 }
 
 .serif-italic {
@@ -90,4 +93,9 @@ body {
         
 .ghost-border-bottom {
     border-bottom: 1px solid rgba(188, 185, 176, 0.2);
+}
+
+.grain-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAxQx35qbqGO6gii9mC9FIgmU8C6CLFS7n1GgC7VaYkeZiXpWKx_kUfL9F8ihNIWh3LVSrjjF54Fh1lNbC-MxTlG0igBCe__ATFz5DJEe7AwwErx60FkoDdejlT_gd49Tdc8kniKsZsX3FO-KbUHn9pi6auD__w3MLOXejwcxwmZwSzwy6bjRaAUJRFrR4AEDkXP773QbLVZIGBIe6Tr05vFBb1Z-w53P5Rk2WfsOip7bvi9n1lW58XlZjoNZx1Jv9qpZlD0Mu0QFkb);
+    opacity: 0.4
 }

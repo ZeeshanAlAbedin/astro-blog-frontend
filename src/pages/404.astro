@@ -1,0 +1,85 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="Home" description="Welcome to my blog" page="404">
+    <main
+        class="flex-grow flex items-center justify-center pt-24 pb-12 px-6 relative overflow-hidden"
+    >
+        <!-- Subtle background texture for the "Paper" feel -->
+        <div class="absolute inset-0 grain-texture pointer-events-none"></div>
+        <!-- Decorative Elements: "Ink splatters" or "pressed botanical" style visual interest -->
+        <div
+            class="absolute top-1/4 left-10 opacity-10 pointer-events-none transform -rotate-12"
+        >
+            <span class="material-symbols-outlined text-9xl text-primary"
+                >local_florist</span
+            >
+        </div>
+        <div
+            class="absolute bottom-1/4 right-10 opacity-10 pointer-events-none transform rotate-12"
+        >
+            <span class="material-symbols-outlined text-9xl text-primary"
+                >edit_note</span
+            >
+        </div>
+        <div class="max-w-2xl w-full text-center z-10">
+            <!-- The "Entry" Card -->
+            <div
+                class="bg-surface-container-lowest p-10 md:p-16 rounded-lg relative overflow-hidden"
+            >
+                <!-- Tonal layering: Surface on Container -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-surface-container-low to-transparent opacity-50"
+                >
+                </div>
+                <div class="relative z-10">
+                    <div class="mb-8 flex justify-center">
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined text-7xl text-primary-dim opacity-40"
+                                >book_5</span
+                            >
+                            <div class="absolute -right-2 -bottom-2">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-tertiary"
+                                    style="font-variation-settings: 'FILL' 1;"
+                                    >bookmark</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <h1
+                        class="font-headline italic text-4xl md:text-5xl text-primary mb-6 leading-tight"
+                    >
+                        An unwritten page
+                    </h1>
+                    <div class="h-px w-24 bg-outline-variant/30 mx-auto mb-8">
+                    </div>
+                    <p
+                        class="font-body text-lg text-on-surface-variant leading-relaxed mb-10 max-w-md mx-auto"
+                    >
+                        It seems like the words are not strong enough to portray this part of the story yet. As the ink fills this page perhaps you can wander to more known ideas.
+                    </p>
+                    <div
+                        class="flex flex-col sm:flex-row items-center justify-center gap-6"
+                    >
+                        <a
+                            class="px-8 py-3 bg-primary text-on-primary rounded-lg font-label text-md transition-all duration-300 hover:bg-primary-dim hover:scale-[0.98] focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                            href="/"
+                        >
+                            Return to the Home
+                        </a>
+                        <a
+                            class="px-8 py-3 bg-surface-container-high text-primary rounded-lg font-label text-md transition-all duration-300 hover:bg-surface-variant hover:underline decoration-tertiary/30"
+                            href="/categories"
+                        >
+                            Browse the Archives
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+</MainLayout>

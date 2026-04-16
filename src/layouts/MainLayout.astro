@@ -1,14 +1,16 @@
 ---
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
+import FooterCompact from "../components/FooterCompact.astro";
 import MainNav from "../components/MainNav.astro";
 
 interface Props {
     title: string;
     description: string;
+    page: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, page } = Astro.props;
 ---
 
 <html lang="en">
@@ -31,9 +33,9 @@ const { title, description } = Astro.props;
             rel="stylesheet"
         />
     </head>
-    <body class="bg-surface selection:bg-secondary-fixed">
-        <MainNav />
+    <body class="font-body min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
+        <MainNav currentPage={page} />
         <slot />
-        <Footer />
+        <FooterCompact />
     </body>
 </html>

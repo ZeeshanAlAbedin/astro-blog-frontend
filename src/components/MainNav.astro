@@ -1,5 +1,18 @@
 ---
+//class="text-primary border-b border-primary pb-1 hover:opacity-80 transition-all duration-300"
+interface Props {
+    currentPage: string;
+}
 
+const { currentPage } = Astro.props;
+const navItems = [
+    { label: "Posts", href: "/", active: currentPage === "home" },
+    { label: "Categories", href: "/categories", active: currentPage === "categories" },
+    { label: "Journal", href: "/journal", active: currentPage === "journal" },
+    { label: "About", href: "/about", active: currentPage === "about" },
+];
+
+var activeClass = "text-primary border-b border-primary pb-1 hover:opacity-80 transition-all duration-300";
 ---
 
 <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl">
@@ -8,28 +21,22 @@
             >The Veiled Pages</a
         >
         <div
-            class="hidden md:flex items-center gap-8 font-headline italic tracking-tight"
+            class="hidden md:flex items-center gap-8 text-xl font-headline italic tracking-tight"
         >
-            <a
-                class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300"
-                href="#">Posts</a
-            >
-            <a
-                class="text-primary border-b border-primary pb-1 hover:opacity-80 transition-all duration-300"
-                href="#">Categories</a
-            >
-            <a
-                class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300"
-                href="#">Journal</a
-            >
-            <a
-                class="text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300"
-                href="#">About</a
-            >
+            {
+                navItems.map((item) => (
+                    <a
+                        class={`text-on-surface-variant hover:text-primary hover:opacity-80 transition-all duration-300 ${item.active ? activeClass : ""}`}
+                        href={item.href}
+                    >
+                        {item.label}
+                    </a>
+                ))
+            }
         </div>
         <div class="flex items-center gap-4">
             <button
-                class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity"
+                class="material-symbols-outlined text-3xl text-primary hover:opacity-80 transition-opacity"
                 >menu</button
             >
         </div>

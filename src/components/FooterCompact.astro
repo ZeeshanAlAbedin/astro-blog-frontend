@@ -1,0 +1,36 @@
+<footer class="w-full mt-auto bg-gradient-to-t from-[#f1eee5] to-transparent">
+    <div
+        class="flex flex-col md:flex-row justify-between items-center px-8 py-12 gap-6 max-w-7xl mx-auto"
+    >
+        <div class="font-headline text-xl text-[#6f6255]">
+            The Veiled Pages
+        </div>
+        <div class="flex gap-8 font-label text-sm tracking-wide text-[#66645d]">
+            <a
+                class="hover:underline decoration-[#5c694a]/30 transition-all opacity-80 hover:opacity-100"
+                href="#">Sitemap</a
+            >
+            <a
+                class="hover:underline decoration-[#5c694a]/30 transition-all opacity-80 hover:opacity-100"
+                href="#">Contact</a
+            >
+            <a
+                class="hover:underline decoration-[#5c694a]/30 transition-all opacity-80 hover:opacity-100"
+                href="#">RSS Feed</a
+            >
+        </div>
+        <div
+            class="font-label text-sm tracking-wide text-[#6f6255] text-center md:text-right"
+        >
+            © <span id="copyright"></span> Unseen, unspoken, but not unfelt.
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    const copyrightEl = document.querySelector<HTMLSpanElement>("#copyright");
+    if (copyrightEl) {
+        copyrightEl.textContent = new Date().getFullYear().toString();
+    }
+</script>
