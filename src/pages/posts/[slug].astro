@@ -1,48 +1,88 @@
 ---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getRandomQuote, formatDateFull} from "../../utils/utils";
 import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
 import { PortableText } from "astro-portabletext";
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 const post = await sanityClient.fetch<SanityDocument>(POST_QUERY, Astro.params);
 
-export async function getStaticPaths(): Promise<{ params: { slug: string } }> {
-  const SLUGS_QUERY = `*[_type == "post" && defined(slug.current)]{
-    "params": {"slug": slug.current}
-  }`;
-  return await sanityClient.fetch(SLUGS_QUERY);
-}
 
-const { projectId, dataset } = sanityClient.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? createImageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
-    
-const postImageUrl = post.image
-  ? urlFor(post.image)?.width(550).height(310).url()
-  : null;
-
-  console.log(postImageUrl);
 ---
+<MainLayout title={post.title} description="Welcome to my blog" page={post.title}>
+  <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
+        <article class="lg:col-span-8 relative">
+          <div class="relative paper-texture rounded-sm spine-shadow border border-surface-container-highest/50 min-h-[1000px] p-12 lg:p-24 overflow-hidden">
+            <div class="ribbon"></div>
+            <header class="mb-16">
+              <div class="flex justify-between items-baseline mb-8">
+                <div class="font-handwriting text-2xl text-primary opacity-70">{post.quip}</div>
+                <div class="font-label text-xs uppercase tracking-[0.2em] text-outline">{formatDateFull(post.dateWritten)}</div>
+              </div>
+              <h1 class="font-headline text-5xl lg:text-6xl font-bold leading-tight text-on-surface mb-4">{post.title}</h1>
+              <div class="w-full h-px bg-surface-container-highest/60"></div>
+            </header>
+              <!-- Article Body -->
+            <div class="max-w-xl mx-auto">
+              <PortableText value={post.body} />      
+              <!-- Signature -->
+              <div class="mt-24 flex justify-end">
+                <p class="font-handwriting text-3xl text-on-surface opacity-80">~ Zedric Coil</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="lg:col-span-4 space-y-12 sticky top-32">
+          <section class="bg-tertiary-container/30 p-8 rounded-lg border-l border-tertiary/10">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="material-symbols-outlined text-tertiary text-2xl" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+              <h3 class="font-headline italic text-xl text-on-tertiary-container">Curator's Note</h3>
+            </div>
+            <p class="font-body text-sm leading-relaxed text-on-tertiary-container/80 mb-6">{post.notes}</p>
+                    
+          </section>
+
+          <!-- Further Reading -->
+          <section class="bg-surface-container rounded-lg p-8">
+            <h4 class="font-headline italic text-lg text-primary mb-6">Related Chroniclings</h4>
+            <div class="space-y-8">
+              <a class="group block" href="#">
+                <p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">June 2025</p>
+                <h5 class="font-headline text-lg group-hover:text-tertiary transition-colors">The Architecture of Silence</h5>
+                <p class="text-sm text-on-surface-variant mt-2 line-clamp-2">Exploring the monastic echoes of abandoned abbeys in the highlands.</p>
+              </a>                        
+            </div>
+          </section>
+
+          <!-- Metadata -->
+          <section class="px-4 py-8 border-t border-outline-variant/20">
+            <h4 class="font-label uppercase text-xs tracking-[0.2em] text-on-surface-variant mb-4">Share this Entry</h4>
+            <div class="flex gap-4">
+              <button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-primary-container transition-colors">
+                <span class="material-symbols-outlined text-lg">share</span>
+              </button>
+              <button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-primary-container transition-colors">
+                <span class="material-symbols-outlined text-lg">bookmark</span>
+              </button>
+            </div>
+          </section>
+        </aside>
+        
+      </div>
+  </main>
+</MainLayout>
+
+<!-- 
 <main class="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
   <a href="/posts" class="hover:underline">&larr; Back to posts</a>
-  {
-    postImageUrl && (
-      <img
-        src={postImageUrl}
-        alt={post.title}
-        class="aspect-video rounded-xl"
-        width="550"
-        height="310"
-      />
-    )
-  }
   <h1 class="text-4xl font-bold mb-8">{post.title}</h1>
   <div class="prose">
     <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p>
     {Array.isArray(post.body) && <PortableText value={post.body} />}
   </div>
 </main>
+-->

@@ -60,7 +60,7 @@ const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
                     <p class="font-body text-on-surface-variant leading-relaxed mb-6">{extractExcerpt(post.body, 150)}</p>
                     <div class="mt-auto flex items-right justify-between">
                         <span class="font-label text-xs italic text-on-surface">by Zedric Coil</span>
-                        <a class="material-symbols-outlined text-primary" href="#">arrow_right_alt</a>
+                        <a class="material-symbols-outlined text-primary" href={`/posts/${post.slug.current}`}>arrow_right_alt</a>
                     </div>
                 </article>
             ))}

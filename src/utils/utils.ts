@@ -62,3 +62,27 @@ export function extractExcerpt(blocks: any[], maxLength: number = 150): string {
   // Truncate and add ellipsis if needed
   return text.length > maxLength ? text.slice(0, maxLength).trim() + '...' : text;
 }
+
+/**
+ * Extract all text from Sanity Portable Text blocks (no truncation)
+ * Returns plain text with paragraph breaks preserved
+ */
+export function extractPlainText(blocks: any[]): string {
+  if (!Array.isArray(blocks)) return '';
+  
+  let text = '';
+  
+  for (const block of blocks) {
+    if (block._type === 'block' && block.children) {
+      for (const child of block.children) {
+        if (child.text) {
+          text += child.text;
+        }
+      }
+      text += '\n\n'; // Add paragraph break between blocks
+    }
+  }
+  
+  return text.trim();
+}
+

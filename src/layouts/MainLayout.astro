@@ -33,7 +33,7 @@ const { title, description, page } = Astro.props;
             rel="stylesheet"
         />
     </head>
-    <body class="font-body min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
+    <body class="font-body min-h-screen flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">          
         <MainNav currentPage={page} />
         <slot />
         <FooterCompact />

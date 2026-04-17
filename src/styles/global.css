@@ -1,80 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Great+Vibes&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "tailwindcss";
 
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Colors */
-  --color-primary-dim: #635649;
-  --color-on-secondary: #ffffff;
-  --color-inverse-on-surface: #9f9d97;
-  --color-secondary: #746152;
-  --color-primary-fixed-dim: #e3d1c1;
-  --color-error-container: #fd795a;
-  --color-on-tertiary-fixed-variant: #626e4f;
-  --color-tertiary-container: #f1ffd7;
-  --color-on-error: #ffffff;
-  --color-primary: #6f6255;
-  --color-surface-container-lowest: #ffffff;
-  --color-secondary-fixed: #f8decc;
-  --color-surface-dim: #e6e2d8;
-  --color-surface-variant: #ebe8de;
-  --color-primary-fixed: #f2dfcf;
-  --color-inverse-surface: #0f0e0b;
-  --color-surface-container-low: #fdf9f1;
-  --color-on-tertiary-fixed: #455134;
-  --color-on-tertiary: #ffffff;
-  --color-on-primary-fixed-variant: #66594c;
-  --color-primary-container: #f2dfcf;
-  --color-tertiary-fixed-dim: #e3f0c9;
-  --color-on-background: #393831;
-  --color-outline-variant: #bcb9b0;
-  --color-secondary-dim: #675547;
-  --color-on-surface: #393831;
-  --color-on-secondary-fixed-variant: #6a584a;
-  --color-on-secondary-container: #604e41;
-  --color-secondary-container: #f8decc;
-  --color-on-tertiary-container: #576345;
-  --color-surface-container-high: #f1eee5;
-  --color-secondary-fixed-dim: #e9d0be;
-  --color-on-secondary-fixed: #4d3c2f;
-  --color-error-dim: #791903;
-  --color-surface-bright: #fffbff;
-  --color-on-primary: #ffffff;
-  --color-on-surface-variant: #66645d;
-  --color-tertiary-dim: #505c3f;
-  --color-surface-tint: #6f6255;
-  --color-background: #fffbff;
-  --color-on-primary-fixed: #493d32;
-  --color-surface-container: #f7f3eb;
-  --color-on-primary-container: #5c5043;
-  --color-tertiary-fixed: #f1ffd7;
-  --color-tertiary: #5c694a;
-  --color-surface-container-highest: #ebe8de;
-  --color-error: #ae4025;
-  --color-outline: #828178;
-  --color-on-error-container: #6e1400;
-  --color-surface: #fffbff;
-  --color-inverse-primary: #f7e5d4;
+    /* Colors */
+    --color-primary-dim: #635649;
+    --color-on-secondary: #ffffff;
+    --color-inverse-on-surface: #9f9d97;
+    --color-secondary: #746152;
+    --color-primary-fixed-dim: #e3d1c1;
+    --color-error-container: #fd795a;
+    --color-on-tertiary-fixed-variant: #626e4f;
+    --color-tertiary-container: #f1ffd7;
+    --color-on-error: #ffffff;
+    --color-primary: #6f6255;
+    --color-surface-container-lowest: #ffffff;
+    --color-secondary-fixed: #f8decc;
+    --color-surface-dim: #e6e2d8;
+    --color-surface-variant: #ebe8de;
+    --color-primary-fixed: #f2dfcf;
+    --color-inverse-surface: #0f0e0b;
+    --color-surface-container-low: #fdf9f1;
+    --color-on-tertiary-fixed: #455134;
+    --color-on-tertiary: #ffffff;
+    --color-on-primary-fixed-variant: #66594c;
+    --color-primary-container: #f2dfcf;
+    --color-tertiary-fixed-dim: #e3f0c9;
+    --color-on-background: #393831;
+    --color-outline-variant: #bcb9b0;
+    --color-secondary-dim: #675547;
+    --color-on-surface: #393831;
+    --color-on-secondary-fixed-variant: #6a584a;
+    --color-on-secondary-container: #604e41;
+    --color-secondary-container: #f8decc;
+    --color-on-tertiary-container: #576345;
+    --color-surface-container-high: #f1eee5;
+    --color-secondary-fixed-dim: #e9d0be;
+    --color-on-secondary-fixed: #4d3c2f;
+    --color-error-dim: #791903;
+    --color-surface-bright: #fffbff;
+    --color-on-primary: #ffffff;
+    --color-on-surface-variant: #66645d;
+    --color-tertiary-dim: #505c3f;
+    --color-surface-tint: #6f6255;
+    --color-background: #fffbff;
+    --color-on-primary-fixed: #493d32;
+    --color-surface-container: #f7f3eb;
+    --color-on-primary-container: #5c5043;
+    --color-tertiary-fixed: #f1ffd7;
+    --color-tertiary: #5c694a;
+    --color-surface-container-highest: #ebe8de;
+    --color-error: #ae4025;
+    --color-outline: #828178;
+    --color-on-error-container: #6e1400;
+    --color-surface: #fffbff;
+    --color-inverse-primary: #f7e5d4;
 
-  /* Border Radius */
-  --DEFAULT: 0.25rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-full: 9999px;
+    /* Border Radius */
+    --DEFAULT: 0.25rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
 
-  /* Fonts */
-  --font-headline: 'Newsreader';
-  --font-body: 'Plus Jakarta Sans';
-  --font-label: 'Plus Jakarta Sans';
+    /* Fonts */
+    --font-headline: 'Newsreader';
+    --font-body: 'Plus Jakarta Sans';
+    --font-label: 'Plus Jakarta Sans';
+    --font-handwriting: 'Great Vibes', cursive;
 }
 
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: #fffbff;
-     color: #393831;
+    color: #393831;
 }
 
 .material-symbols-outlined {
@@ -90,7 +91,7 @@ body {
 .tonal-nesting {
     background-color: #fdf9f1;
 }
-        
+
 .ghost-border-bottom {
     border-bottom: 1px solid rgba(188, 185, 176, 0.2);
 }
@@ -98,4 +99,47 @@ body {
 .grain-texture {
     background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAxQx35qbqGO6gii9mC9FIgmU8C6CLFS7n1GgC7VaYkeZiXpWKx_kUfL9F8ihNIWh3LVSrjjF54Fh1lNbC-MxTlG0igBCe__ATFz5DJEe7AwwErx60FkoDdejlT_gd49Tdc8kniKsZsX3FO-KbUHn9pi6auD__w3MLOXejwcxwmZwSzwy6bjRaAUJRFrR4AEDkXP773QbLVZIGBIe6Tr05vFBb1Z-w53P5Rk2WfsOip7bvi9n1lW58XlZjoNZx1Jv9qpZlD0Mu0QFkb);
     opacity: 0.4
+}
+
+.paper-texture {
+    background-color: #fcfaf5;
+    /* Solid light off-white parchment tone */
+    background-image: none;
+    /* Removed erratic background image */
+}
+
+.drop-cap::first-letter {
+    float: left;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+    font-family: "Newsreader", serif;
+    color: #393831;
+    font-weight: 300;
+}
+
+.spine-shadow {
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    /* Gentle shadow to separate from background */
+}
+
+.ribbon {
+    position: absolute;
+    top: 0;
+    right: 40px;
+    width: 24px;
+    height: 60px;
+    background: #ae4025;
+    z-index: 10
+}
+
+.diamond-divider::before {
+    content: '✧';
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #bcb9b0;
+    margin: 3rem 0;
+    opacity: 0.5;
 }
