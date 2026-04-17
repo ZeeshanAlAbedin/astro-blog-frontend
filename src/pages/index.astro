@@ -1,11 +1,71 @@
 ---
+import MainLayout from "../layouts/MainLayout.astro";
+import { getRandomQuote, formatDateFull, getSanityImageUrl, extractExcerpt} from "../utils/utils";
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
 
-import MainLayout from '../layouts/MainLayout.astro'
+const { quote, author } = getRandomQuote();
+
+const POSTS_QUERY = `*[
+  _type == "post"
+  && defined(slug.current)
+]|order(publishedAt desc)[0...3]{_id, title, slug, publishedAt, image, dateWritten, ref_category[0]->{name}, body}`;
+
+const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+
 
 ---
 
 <MainLayout title="Home" description="Welcome to my blog" page="home">
-    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-
+    <main class="pt-32 pb-20 max-w-7xl mx-auto px-6 relative">
+        <section class="mb-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+            <div class="lg:col-span-7">
+                <span class="font-label text-sm uppercase tracking-widest text-tertiary mb-4 block">A Small Corner of the Web</span>
+                <h1 class="font-headline text-7xl md:text-8xl italic text-on-background leading-none mb-8 ">
+                    Savoring the <span class="text-primary-dim">Unrushed</span> Moments of Life.
+                </h1>
+                <p class="font-body text-xl text-on-surface-variant max-w-xl leading-relaxed mb-10">
+                    Welcome to my digital journal. Here, I collect my thoughts like sea shells, scattered, weathered but personal. A space to share for those who prefer reading random thoughts of a person on various stories, occasional prose and poems.
+                </p>
+                <div class="flex gap-6 items-center">
+                    <a href={`/posts/${posts[0].slug.current}`} class="bg-primary text-on-primary px-8 py-4 rounded-lg font-label font-medium hover:opacity-90 transition-all inline-block">Read Latest Entry</a>
+                    <a href= '/categories' class="font-label text-primary hover:underline transition-all">View Archives</a>
+                </div>
+            </div>
+            <div class="lg:col-span-5 relative">
+                <div class="aspect-[4/5] bg-surface-container-high rounded-lg overflow-hidden relative rotate-2 shadow-sm">
+                    <img class="hover:scale-105 transition-transform duration-700" src="/blog_Image_veiled.png"/>
+                </div>
+                <div class="absolute -bottom-10 -left-6 bg-tertiary-container p-6 max-w-[320px] rounded shadow-sm -rotate-3">
+                    <p class="font-headline italic text-on-tertiary-container text-lg">{quote}</p>
+                    <span class="font-label text-xs uppercase text-on-tertiary-container mt-4 block opacity-60">— {author}</span>
+                </div>
+            </div>
+        </section>
+        <section class="mb-24">
+            <div class="flex items-center justify-between mb-16 border-b border-outline-variant/20 pb-4">
+                <h2 class="font-headline text-4xl italic text-on-background">Recent Chronicles</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+            {posts.map((post) =>(
+                <article class="flex flex-col">
+                    <div class="mb-6 overflow-hidden rounded-lg bg-surface-container aspect-video">
+                        <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" src={getSanityImageUrl(post.image)}/>
+                    </div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-[10px] font-label font-bold uppercase tracking-[0.2em] bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full">{post.ref_category.name}</span>
+                        <span class="text-xs font-label text-on-surface-variant">{formatDateFull(post.dateWritten)}</span>
+                    </div>
+                    <h3 class="font-headline text-3xl mb-4 leading-tight hover:text-primary transition-colors cursor-pointer">{post.title}</h3>
+                    <p class="font-body text-on-surface-variant leading-relaxed mb-6">{extractExcerpt(post.body, 150)}</p>
+                    <div class="mt-auto flex items-right justify-between">
+                        <span class="font-label text-xs italic text-on-surface">by Zedric Coil</span>
+                        <a class="material-symbols-outlined text-primary" href="#">arrow_right_alt</a>
+                    </div>
+                </article>
+            ))}
+            </div>
+        </section>
     </main>
 </MainLayout>
+

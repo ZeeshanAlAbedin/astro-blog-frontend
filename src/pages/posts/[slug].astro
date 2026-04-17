@@ -19,9 +19,12 @@ const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
+    
 const postImageUrl = post.image
   ? urlFor(post.image)?.width(550).height(310).url()
   : null;
+
+  console.log(postImageUrl);
 ---
 
 <main class="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
