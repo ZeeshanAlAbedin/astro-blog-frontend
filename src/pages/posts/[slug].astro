@@ -1,26 +1,32 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import { getRandomQuote, formatDateFull} from "../../utils/utils";
+import { formatDateFull, extractExcerpt} from "../../utils/utils";
 import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
 import { PortableText } from "astro-portabletext";
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
+export async function getStaticPaths() {
+  const posts = await sanityClient.fetch(`*[_type == "post"]{slug}`);
+  return posts.map((post: any) => ({
+    params: { slug: post.slug.current },
+  }));
+}
+
+const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{title,dateWritten,notes,body,quip,ref_category[0]->{name}, relatedPosts[]->{title, dateWritten, body, slug}}`;
 const post = await sanityClient.fetch<SanityDocument>(POST_QUERY, Astro.params);
-
-
+console.log(post.relatedPosts);
 ---
 <MainLayout title={post.title} description="Welcome to my blog" page={post.title}>
   <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
         <article class="lg:col-span-8 relative">
-          <div class="relative paper-texture rounded-sm spine-shadow border border-surface-container-highest/50 min-h-[1000px] p-12 lg:p-24 overflow-hidden">
+          <div class="relative paper-texture rounded-sm spine-shadow border border-surface-container-highest/50 min-h-[1000px] min-w-[200px] lg:min-w-[800px] p-6 lg:p-24 overflow-hidden">
             <div class="ribbon"></div>
             <header class="mb-16">
               <div class="flex justify-between items-baseline mb-8">
                 <div class="font-handwriting text-2xl text-primary opacity-70">{post.quip}</div>
-                <div class="font-label text-xs uppercase tracking-[0.2em] text-outline">{formatDateFull(post.dateWritten)}</div>
+                <div class="font-label text-xs lg:mt-0 mt-12 uppercase tracking-[0.2em] text-outline">{formatDateFull(post.dateWritten)}</div>
               </div>
               <h1 class="font-headline text-5xl lg:text-6xl font-bold leading-tight text-on-surface mb-4">{post.title}</h1>
               <div class="w-full h-px bg-surface-container-highest/60"></div>
@@ -49,13 +55,17 @@ const post = await sanityClient.fetch<SanityDocument>(POST_QUERY, Astro.params);
           <!-- Further Reading -->
           <section class="bg-surface-container rounded-lg p-8">
             <h4 class="font-headline italic text-lg text-primary mb-6">Related Chroniclings</h4>
-            <div class="space-y-8">
-              <a class="group block" href="#">
-                <p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">June 2025</p>
-                <h5 class="font-headline text-lg group-hover:text-tertiary transition-colors">The Architecture of Silence</h5>
-                <p class="text-sm text-on-surface-variant mt-2 line-clamp-2">Exploring the monastic echoes of abandoned abbeys in the highlands.</p>
-              </a>                        
-            </div>
+            
+              {post.relatedPosts?.length > 0 && (
+                post.relatedPosts.map((rp) => (
+                  <div class="space-y-2">
+                    <p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">{formatDateFull(rp.dateWritten)}</p>
+                    <a class="font-headline text-lg group-hover:text-tertiary transition-colors" href={`/posts/${rp.slug.current}`}>{rp.title}</a>
+                    <p class="text-sm text-on-surface-variant mt-1 mb-10 line-clamp-2">{extractExcerpt(rp.body, 100)}</p>
+                  </div>
+                ))
+              )}                   
+           
           </section>
 
           <!-- Metadata -->

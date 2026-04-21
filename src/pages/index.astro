@@ -56,7 +56,7 @@ const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
                         <span class="text-[10px] font-label font-bold uppercase tracking-[0.2em] bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full">{post.ref_category.name}</span>
                         <span class="text-xs font-label text-on-surface-variant">{formatDateFull(post.dateWritten)}</span>
                     </div>
-                    <h3 class="font-headline text-3xl mb-4 leading-tight hover:text-primary transition-colors cursor-pointer">{post.title}</h3>
+                    <a class="font-headline text-3xl mb-4 leading-tight hover:text-primary transition-colors cursor-pointer" href={`/posts/${post.slug.current}`}>{post.title}</a>
                     <p class="font-body text-on-surface-variant leading-relaxed mb-6">{extractExcerpt(post.body, 150)}</p>
                     <div class="mt-auto flex items-right justify-between">
                         <span class="font-label text-xs italic text-on-surface">by Zedric Coil</span>
