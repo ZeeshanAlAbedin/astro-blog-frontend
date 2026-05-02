@@ -85,14 +85,3 @@ console.log(post.relatedPosts);
       </div>
   </main>
 </MainLayout>
-
-<!-- 
-<main class="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
-  <a href="/posts" class="hover:underline">&larr; Back to posts</a>
-  <h1 class="text-4xl font-bold mb-8">{post.title}</h1>
-  <div class="prose">
-    <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p>
-    {Array.isArray(post.body) && <PortableText value={post.body} />}
-  </div>
-</main>
--->

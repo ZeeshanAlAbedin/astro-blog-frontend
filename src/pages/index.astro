@@ -9,7 +9,7 @@ const { quote, author } = getRandomQuote();
 const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
-]|order(publishedAt desc)[0...3]{_id, title, slug, publishedAt, image, dateWritten, ref_category[0]->{name}, body}`;
+]|order(publishedAt desc)[0...3]{_id, title, slug, publishedAt, image, dateWritten, ref_category[0]->{name}, sub_category[0]->{name}, body}`;
 
 const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
 
@@ -54,6 +54,7 @@ const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
                     </div>
                     <div class="flex items-center gap-3 mb-4">
                         <span class="text-[10px] font-label font-bold uppercase tracking-[0.2em] bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full">{post.ref_category.name}</span>
+                        {post.sub_category?.name && (<span class="text-[10px] font-label font-bold uppercase tracking-[0.2em] bg-tertiary-container text-on-tertiary-container px-2 py-1 rounded-full">{post.sub_category.name}</span>)}
                         <span class="text-xs font-label text-on-surface-variant">{formatDateFull(post.dateWritten)}</span>
                     </div>
                     <a class="font-headline text-3xl mb-4 leading-tight hover:text-primary transition-colors cursor-pointer" href={`/posts/${post.slug.current}`}>{post.title}</a>

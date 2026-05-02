@@ -1,11 +1,225 @@
 ---
+import MainLayout from "../layouts/MainLayout.astro";
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
 
-import MainLayout from '../layouts/MainLayout.astro'
+const POSTS_QUERY = `*[
+  _type == "category" && (name == 'Journal' || name == 'Poems' || name == 'Stories' || name == 'Ramblings')
+]|order(publishedAt asc){name, description, slug}`;
 
+const POSTS_QUERY_FILTERED = `*[
+  _type == "category" && name != 'Journal' && name != 'Poems' && name != 'Stories' && name != 'Ramblings'
+]|order(publishedAt asc){name, description, slug}`;
+
+const categories = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+const categoriesFiltered =
+    await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY_FILTERED);
 ---
 
-<MainLayout title="Categories" description="Welcome to my blog" page="categories">
+<MainLayout
+    title="Categories"
+    description="Welcome to my blog"
+    page="categories"
+>
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <header class="mb-16 md:mb-24 max-w-3xl">
+            <div
+                class="inline-block px-3 py-1 mb-6 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs uppercase tracking-widest"
+            >
+                Classifications
+            </div>
+            <h1
+                class="text-5xl md:text-7xl font-headline italic text-primary leading-tight mb-6"
+            >
+                Explore the Anthology
+            </h1>
+            <p
+                class="text-on-surface-variant text-lg md:text-xl leading-relaxed font-body"
+            >
+                A curated collection of observations, prose, rhythm and
+                everything in between. Each category represents a different
+                texture of the an experience.
+            </p>
+        </header>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+            <!-- Category: Journal (Large Focus) -->
+            <div class="md:col-span-8 group">
+                <div
+                    class="relative overflow-hidden rounded-xl bg-surface-container-low p-8 md:p-12 h-full flex flex-col justify-between border-b border-outline-variant/20"
+                >
+                    <div class="flex justify-between items-start mb-12">
+                        <div
+                            class="p-4 rounded-full bg-surface-container-highest inline-flex items-center justify-center text-primary"
+                        >
+                            <span class="material-symbols-outlined text-4xl"
+                                >menu_book</span
+                            >
+                        </div>
+                        <span
+                            class="font-label text-xs uppercase tracking-widest text-tertiary"
+                            >42 entries</span
+                        >
+                    </div>
+                    <div>
+                        <h2
+                            class="text-4xl md:text-5xl font-headline italic mb-4 group-hover:translate-x-2 transition-transform duration-500"
+                        >
+                            Journal
+                        </h2>
+                        <p
+                            class="text-on-surface-variant max-w-md leading-relaxed"
+                        >
+                            Daily reflections, stream of consciousness, and the
+                            quiet beauty of the mundane. A space for the
+                            unpolished thoughts of a wandering mind.
+                        </p>
+                        <button
+                            class="mt-8 font-label text-sm uppercase tracking-widest text-primary flex items-center gap-2 group/btn"
+                        >
+                            Open Volume <span
+                                class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform"
+                                >arrow_forward</span
+                            >
+                        </button>
+                    </div>
+                    <!-- Decorative image overlay -->
+                    <div
+                        class="absolute -right-12 -bottom-12 opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"
+                    >
+                        <img
+                            class="w-64 h-64 object-cover rotate-12 rounded-lg"
+                            data-alt="Vintage textured paper with subtle ink stains and soft shadows on a warm wooden desk"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWBgU-dZ7NpbKccV5llkN66ZM7Z8OxOoPl-w4Vf2-yIGodBUxYP7rAledKRGnGIV8WtBrnuSfR-IA_J8P6CWNY3c7drtjzAvQRk--pNYnJlWgmMNSGL9pYO_ogynpKY-hLy8HK7lkibtGIXkLTmmFvGRXuGD61qV4qqOcqIgbfGb_T4eZkcAKvJsipPU3Nr1kx95J0WpXm3CzNIQ8hq_a3kT7mDdf1IQecVb06hAKYGFRiIG_FyZmmbSlv-_6EQZWXWXYKQF7IBQzA"
+                        />
+                    </div>
+                </div>
+            </div>
+            <!-- Category: Stories -->
+            <div class="md:col-span-4 group">
+                <div
+                    class="h-full bg-secondary-container/30 rounded-xl p-8 flex flex-col items-center text-center justify-center border-b border-outline-variant/15"
+                >
+                    <div
+                        class="mb-8 p-6 rounded-full bg-secondary-container text-on-secondary-container"
+                    >
+                        <span class="material-symbols-outlined text-5xl"
+                            >edit_note</span
+                        >
+                    </div>
+                    <h2 class="text-3xl font-headline italic mb-3">Stories</h2>
+                    <p
+                        class="text-on-secondary-container/80 text-sm leading-relaxed mb-6"
+                    >
+                        Narratives that bridge the gap between memory and
+                        imagination.
+                    </p>
+                    <div class="w-full h-48 rounded-lg overflow-hidden mb-6">
+                        <img
+                            class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
+                            data-alt="A classic fountain pen resting on a handwritten manuscript in a sun-drenched library setting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTno6t9xFAWS0IMHv5RffQbytfTxzC3Ugk7ELmqF7BZVza0XrtZjtSkEqVc5Q8aYXU_7Xz5oJKoNpVBDVH4KIQks7y7YnRlHgA4DyYvDtvuHhQS85keSWpxr4z-FtLMhW8ODBPZqMAz-4KtWPT9SDfPilkfDE3-DzU48V6PujFY-0BvBRwAdpsX1YxG2Zo-8AsDeeIhmmoLT5uIRdWMQ5LECt47AbaULJNTyz760cNjAlbECNyCkyg7dyUSGKuS8YwDQpk86QjD_Xw"
+                        />
+                    </div>
+                    <a
+                        class="inline-block py-3 px-6 rounded-lg bg-primary text-on-primary text-sm font-label uppercase tracking-widest hover:bg-primary-dim transition-colors"
+                        href="#">Read Stories</a
+                    >
+                </div>
+            </div>
+            <!-- Category: Poems -->
+            <div class="md:col-span-4 group">
+                <div
+                    class="bg-tertiary-container p-8 rounded-xl h-full flex flex-col justify-between border-b border-outline-variant/20"
+                >
+                    <div class="text-on-tertiary-container mb-8">
+                        <span class="material-symbols-outlined text-4xl"
+                            >local_florist</span
+                        >
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-headline italic mb-4">
+                            Poems
+                        </h2>
+                        <p
+                            class="text-on-tertiary-container/70 text-sm italic leading-relaxed"
+                        >
+                            "The world is full of magic things, patiently
+                            waiting for our senses to grow sharper."
+                        </p>
+                    </div>
+                    <div
+                        class="mt-8 pt-8 border-t border-on-tertiary-container/10 flex justify-between items-center"
+                    >
+                        <span
+                            class="text-xs font-label uppercase tracking-tighter text-on-tertiary-container"
+                            >Verse &amp; Meter</span
+                        >
+                        <span
+                            class="material-symbols-outlined text-on-tertiary-container"
+                            >auto_stories</span
+                        >
+                    </div>
+                </div>
+            </div>
+            <!-- Category: Rambling -->
+            <div class="md:col-span-8 group">
+                <div
+                    class="bg-surface-container-highest rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center border-b border-outline-variant/20"
+                >
+                    <div
+                        class="w-full md:w-1/3 aspect-square rounded-full overflow-hidden shadow-2xl shadow-on-surface/5"
+                    >
+                        <img
+                            class="w-full h-full object-cover group-hover:rotate-6 transition-transform duration-700"
+                            data-alt="Stack of old weathered books in a cozy attic with soft morning light filtering through dust"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBz-Lsv45E2RQfoQKQou4wffSJqJ5VS7YnWdfgatsmHpL8BlYCvn9e-xOQS2Cnri2AJTrnqGnCw99QOOSe43m8qCSlBYOgvymhTB0ujufl3t80uM4JFTz-lbmVata7q29CQjHaVuEMtdzhEEMV1AomoX_a0B8z0_ySgw3qDiXKY58_X0BQdvtajGEipaoH6_JfmbHUYpuwD-tZqkYQd99fN5Vkftxnc8A0u3lFSJ83rkSsI9OE67T1yWX5ojW0jaSOGfnzKR8m_f1Da"
+                        />
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-4xl font-headline italic mb-4">
+                            Rambling
+                        </h2>
+                        <p class="text-on-surface-variant leading-relaxed mb-6">
+                            The unguided walks of the mind. Topics range from
+                            the philosophy of coffee to the architecture of
+                            dreams. No destination, only the journey of a
+                            curious spirit.
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span
+                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest"
+                                >Philosophy</span
+                            >
+                            <span
+                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest"
+                                >Art</span
+                            >
+                            <span
+                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest"
+                                >Wandering</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            {
+                categoriesFiltered.map(
+                    (ctFiltered) =>
+                        ctFiltered?.name && (
+                            <div class="md:col-span-6 group">
+                                <div class="bg-surface-container-highest rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center border-b border-outline-variant/20">
+                                    <h2 class="text-2xl font-headline italic mb-2">
+                                        {ctFiltered.name}
+                                    </h2>
+                                    <p class="text-on-surface-variant leading-relaxed mb-2">
+                                        {ctFiltered.description}
+                                    </p>
+                                </div>
+                            </div>
+                        ),
+                )
+            }
+        </div>
     </main>
 </MainLayout>
