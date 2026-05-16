@@ -6,9 +6,9 @@ interface Props {
 
 const { currentPage } = Astro.props;
 const navItems = [
-    { label: "Posts", href: "/", active: currentPage === "home" },
+    { label: "Home", href: "/", active: currentPage === "home" },
     { label: "Categories", href: "/categories", active: currentPage === "categories" },
-    { label: "Journal", href: "/journal", active: currentPage === "journal" },
+    { label: "Archives", href: "/archives", active: currentPage === "archives" },
     { label: "About", href: "/about", active: currentPage === "about" },
 ];
 

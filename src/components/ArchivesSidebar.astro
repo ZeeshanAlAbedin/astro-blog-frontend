@@ -1,0 +1,62 @@
+---
+import { formatDateFull } from "../utils/utils";
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
+
+interface Props {
+  latestPost?: any;
+}
+
+const { latestPost } = Astro.props;
+
+const currentTime = "3:45 PM";
+const literaryQuote = "The best time to plant a tree was 20 years ago. The second best time is now.";
+
+const POSTS_QUERY = `*[
+  _type == "category"
+]|order(publishedAt asc){name}`;
+const categories = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+---
+
+<aside class="lg:col-span-4 space-y-6 sticky top-32">
+  
+  <!-- Latest Post -->
+  {latestPost && (
+    <section class="bg-primary-container/20 p-6 rounded-lg border border-primary/10">
+      <h3 class="font-headline text-sm uppercase tracking-widest text-primary mb-4">Latest Entry</h3>
+      <a href={`/posts/${latestPost.slug.current}`} class="group block">
+        <p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">{formatDateFull(latestPost.dateWritten)}</p>
+        <h4 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors mb-2">{latestPost.title}</h4>
+        <p class="text-sm text-on-surface-variant">{latestPost.quip}</p>
+      </a>
+    </section>
+  )}
+
+  <!-- Literary Clock -->
+  <section class="bg-secondary-container/20 p-6 rounded-lg border border-secondary/10">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="material-symbols-outlined text-secondary">schedule</span>
+      <h3 class="font-headline text-sm uppercase tracking-widest text-secondary">Literary Clock</h3>
+    </div>
+    <div class="text-center">
+      <p class="font-display text-4xl text-on-surface mb-3">{currentTime}</p>
+      <p class="font-body text-xs italic text-on-surface-variant leading-relaxed">"{literaryQuote}"</p>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="bg-surface-container rounded-lg p-6">
+    <h3 class="font-headline text-sm uppercase tracking-widest text-on-surface mb-4">Categories</h3>
+    <div class="space-y-2">
+      {categories.map((cat) => (
+        <button class="w-full text-left p-3 rounded-lg bg-surface-container-high hover:bg-tertiary-container/30 transition-colors group">
+          <div class="flex justify-between items-center">
+            <span class="font-body text-sm text-on-surface group-hover:text-on-surface transition-colors">{cat.name}</span>
+           
+          </div>
+        </button>
+      ))}
+    </div>
+  </section>
+
+</aside>
