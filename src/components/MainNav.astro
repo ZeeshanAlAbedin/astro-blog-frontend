@@ -8,7 +8,7 @@ const { currentPage } = Astro.props;
 const navItems = [
     { label: "Home", href: "/", active: currentPage === "home" },
     { label: "Categories", href: "/categories", active: currentPage === "categories" },
-    { label: "Archives", href: "/archives", active: currentPage === "archives" },
+    { label: "Archives", href: "/category/", active: currentPage === "archives" },
     { label: "About", href: "/about", active: currentPage === "about" },
 ];
 
@@ -17,7 +17,7 @@ var activeClass = "text-primary border-b border-primary pb-1 hover:opacity-80 tr
 
 <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl">
     <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
-        <a class="text-2xl font-bold font-headline text-primary" href="#"
+        <a class="text-2xl font-bold font-headline text-primary" href="/"
             >The Veiled Pages</a
         >
         <div

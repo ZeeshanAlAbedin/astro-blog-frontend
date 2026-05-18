@@ -14,7 +14,7 @@ const literaryQuote = "The best time to plant a tree was 20 years ago. The secon
 
 const POSTS_QUERY = `*[
   _type == "category"
-]|order(publishedAt asc){name}`;
+]|order(publishedAt asc){name, slug}`;
 const categories = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
 ---
 
@@ -51,7 +51,7 @@ const categories = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
       {categories.map((cat) => (
         <button class="w-full text-left p-3 rounded-lg bg-surface-container-high hover:bg-tertiary-container/30 transition-colors group">
           <div class="flex justify-between items-center">
-            <span class="font-body text-sm text-on-surface group-hover:text-on-surface transition-colors">{cat.name}</span>
+            <a class="font-body text-sm text-on-surface group-hover:text-on-surface transition-colors" href={`/category/${cat.slug.current}`}>{cat.name}</a>
            
           </div>
         </button>

@@ -1,9 +1,9 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
-import ArchivesSidebar from "../components/ArchivesSidebar.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import ArchivesSidebar from "../../components/ArchivesSidebar.astro";
 import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
-import {formatDateFull, getSanityImageUrl} from "../utils/utils";
+import {formatDateFull, getSanityImageUrl} from "../../utils/utils";
 
 const POSTS_QUERY = `*[
   _type == "post"
@@ -34,7 +34,7 @@ const latestPost = posts[0];
           <div class="lg:col-span-8 space-y-2">
             {
                 posts.map((post) =>(
-                    <article class="group cursor-pointer rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border border-outline-variant/20">
+                    <a href={`/posts/${post.slug.current}`} class="group cursor-pointer rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border border-outline-variant/20">
                         <div class="flex flex-col md:flex-row gap-0">
                             {/* Image Container */}
                             {post.image && (
@@ -66,7 +66,7 @@ const latestPost = posts[0];
                                 </div>
                             </div>
                         </div>
-                    </article>
+                    </a>
                 ))
             }
           </div>

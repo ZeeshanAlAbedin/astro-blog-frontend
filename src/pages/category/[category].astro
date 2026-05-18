@@ -1,0 +1,103 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import ArchivesSidebar from "../../components/ArchivesSidebar.astro";
+import { formatDateFull, getSanityImageUrl} from "../../utils/utils";
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
+
+interface Props {
+  name: string;
+  description : string;
+}
+
+export async function getStaticPaths() {
+    // Fetch all posts and extract unique categories
+    const currentCat = await sanityClient.fetch(`
+        *[_type == "category" ]|{name, slug, description}
+    `);
+     console.log("Categories fetched:", currentCat); // Debug: see the actual data
+    return currentCat.map((post: any) => ({
+        params: { category: post.slug.current },
+        props: { name: post.name, description: post.description },
+  }));
+}
+
+const { name, description } = Astro.props as Props;
+
+//GROQ to pick data from category only
+const POSTS_QUERY = `*[
+  _type == "post" && ref_category[0]->slug.current == $category
+  && defined(slug.current)
+]|order(publishedAt desc)[0...10]{_id, title, slug, quip, publishedAt, image, dateWritten, ref_category[0]->{name}, sub_category[0]->{name}}`;
+
+const categoryPost = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY, Astro.params);
+
+//Query to get the latest post
+const LATEST_POSTS_QUERY = `*[
+  _type == "post"
+  && defined(slug.current)
+]|order(publishedAt desc)[0...1]{title, slug, quip, dateWritten}`;
+
+const latestPosts = await sanityClient.fetch<SanityDocument[]>(LATEST_POSTS_QUERY);
+const latestPost = latestPosts[0];
+
+
+---
+<MainLayout title="Journal" description="Welcome to my blog" page="journal">
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+        <header class="mb-10 text-center">
+            <h1 class="font-headline italic text-5xl md:text-7xl text-primary text-on-surface mb-6">
+                {name}
+            </h1>
+            <p class="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                {description}
+            </p>
+            <div class="w-100 h-px bg-outline-variant/40 mx-auto mt-12"></div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          <div class="lg:col-span-8 space-y-2">
+            {
+                categoryPost.map((post) =>(
+                    <a href={`/posts/${post.slug.current}`} class="group cursor-pointer rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border border-outline-variant/20 block">
+                        <div class="flex flex-col md:flex-row gap-0">
+                            {/* Image Container */}
+                            {post.image && (
+                                <div class="w-full md:w-4/12 h-32 md:h-40 overflow-hidden bg-stone-100 flex-shrink-0">
+                                    <img 
+                                        src={getSanityImageUrl(post.image)} 
+                                        alt={post.title}
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                </div>
+                            )}
+                            {/* Content Container */}
+                            <div class={`flex flex-col justify-between p-4 md:p-5 ${post.image ? 'md:w-8/12' : 'w-full'}`}>
+                                <div>
+                                    <div class="mb-2 flex items-center">
+                                        <span class="font-label text-xs text-on-surface-variant">{formatDateFull(post.dateWritten)}</span>
+                                    </div>
+                                    <h2 class="font-headline text-lg md:text-xl font-normal leading-tight text-on-surface mb-2 group-hover:text-primary transition-colors duration-300">
+                                        {post.title}
+                                    </h2>
+                                    <p class="text-sm md:text-base text-on-surface-variant font-body leading-relaxed mb-3">
+                                        {post.quip}
+                                    </p>
+                                </div>
+                                {/* Tags Container */}
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[9px] font-label font-bold uppercase tracking-[0.15em] bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full">{post.ref_category.name}</span>
+                                    {post.sub_category?.name && (<span class="text-[9px] font-label font-bold uppercase tracking-[0.15em] bg-tertiary-container text-on-tertiary-container px-2 py-1 rounded-full">{post.sub_category.name}</span>)}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                ))
+            }
+          </div>
+          <ArchivesSidebar latestPost={latestPost} />
+        </div>
+
+    </main>
+</MainLayout>
