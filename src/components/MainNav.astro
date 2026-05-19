@@ -36,9 +36,56 @@ var activeClass = "text-primary border-b border-primary pb-1 hover:opacity-80 tr
         </div>
         <div class="flex items-center gap-4">
             <button
+                id="mobile-menu-btn"
                 class="material-symbols-outlined text-3xl text-primary hover:opacity-80 transition-opacity"
                 >menu</button
             >
         </div>
     </div>
+    
+    <!-- Mobile Menu -->
+    <div
+        id="mobile-menu"
+        class="hidden md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-outline-variant/20"
+    >
+        <div class="flex flex-col items-start px-8 py-4 gap-4 max-w-7xl mx-auto w-full">
+            {
+                navItems.map((item) => (
+                    <a
+                        class={`w-full text-lg font-headline italic tracking-tight py-2 px-2 rounded transition-all duration-300 ${
+                            item.active
+                                ? "text-primary border-b border-primary pb-1"
+                                : "text-on-surface-variant hover:text-primary hover:opacity-80"
+                        }`}
+                        href={item.href}
+                    >
+                        {item.label}
+                    </a>
+                ))
+            }
+        </div>
+    </div>
 </nav>
+
+<script>
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+            // Toggle icon between menu and close
+            menuBtn.textContent =
+                menuBtn.textContent === "menu" ? "close" : "menu";
+        });
+
+        // Close menu when a link is clicked
+        const menuLinks = mobileMenu.querySelectorAll("a");
+        menuLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+                menuBtn.textContent = "menu";
+            });
+        });
+    }
+</script>

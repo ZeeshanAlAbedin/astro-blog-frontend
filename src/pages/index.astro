@@ -29,7 +29,7 @@ const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
                 </p>
                 <div class="flex gap-6 items-center">
                     <a href={`/posts/${posts[0].slug.current}`} class="bg-primary text-on-primary px-8 py-4 rounded-lg font-label font-medium hover:opacity-90 transition-all inline-block">Read Latest Entry</a>
-                    <a href= '/categories' class="font-label text-primary hover:underline transition-all">View Archives</a>
+                    <a href= '/categories' class="font-label text-primary hover:underline transition-all">Explore More</a>
                 </div>
             </div>
             <div class="lg:col-span-5 relative">

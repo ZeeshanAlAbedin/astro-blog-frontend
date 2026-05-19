@@ -3,15 +3,13 @@ import MainLayout from "../layouts/MainLayout.astro";
 import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
 
-const POSTS_QUERY = `*[
-  _type == "category" && (name == 'Journal' || name == 'Poems' || name == 'Stories' || name == 'Ramblings')
-]|order(publishedAt asc){name, description, slug}`;
+const POSTS_QUERY = `count(*[_type == 'post'])`;
 
 const POSTS_QUERY_FILTERED = `*[
   _type == "category" && name != 'Journal' && name != 'Poems' && name != 'Stories' && name != 'Ramblings'
 ]|order(publishedAt asc){name, description, slug}`;
 
-const categories = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+const countAllPost = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
 const categoriesFiltered =
     await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY_FILTERED);
 ---
@@ -42,7 +40,7 @@ const categoriesFiltered =
             </p>
         </header>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
-            <!-- Category: Journal (Large Focus) -->
+            <!-- Category: Journal -->
             <div class="md:col-span-8 group">
                 <div
                     class="relative overflow-hidden rounded-xl bg-surface-container-low p-8 md:p-12 h-full flex flex-col justify-between border-b border-outline-variant/20"
@@ -57,30 +55,28 @@ const categoriesFiltered =
                         </div>
                         <span
                             class="font-label text-xs uppercase tracking-widest text-tertiary"
-                            >42 entries</span
+                            >{countAllPost} passages etched into the Veiled Pages</span
                         >
                     </div>
                     <div>
                         <h2
                             class="text-4xl md:text-5xl font-headline italic mb-4 group-hover:translate-x-2 transition-transform duration-500"
                         >
-                            Journal
+                            Archives
                         </h2>
                         <p
                             class="text-on-surface-variant max-w-md leading-relaxed"
                         >
-                            Daily reflections, stream of consciousness, and the
-                            quiet beauty of the mundane. A space for the
-                            unpolished thoughts of a wandering mind.
+                            A collection of every idea, story or prose.
+                            All wrapped up into a single gift presented for 
+                            easy reading.
                         </p>
-                        <button
+                        <a href={`/category/`}
                             class="mt-8 font-label text-sm uppercase tracking-widest text-primary flex items-center gap-2 group/btn"
                         >
-                            Open Volume <span
-                                class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform"
-                                >arrow_forward</span
-                            >
-                        </button>
+                            Open Volume <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform" >
+                                arrow_forward</span>
+                            </a>
                     </div>
                     <!-- Decorative image overlay -->
                     <div
@@ -122,7 +118,7 @@ const categoriesFiltered =
                     </div>
                     <a
                         class="inline-block py-3 px-6 rounded-lg bg-primary text-on-primary text-sm font-label uppercase tracking-widest hover:bg-primary-dim transition-colors"
-                        href="#">Read Stories</a
+                        href="/category/stories">Read Stories</a
                     >
                 </div>
             </div>
@@ -150,10 +146,11 @@ const categoriesFiltered =
                     <div
                         class="mt-8 pt-8 border-t border-on-tertiary-container/10 flex justify-between items-center"
                     >
-                        <span
-                            class="text-xs font-label uppercase tracking-tighter text-on-tertiary-container"
-                            >Verse &amp; Meter</span
-                        >
+            
+                        <a
+                        class="inline-block py-2 px-4 rounded-lg bg-tertiary text-on-tertiary text-sm font-label uppercase hover:bg-primary-dim transition-colors"
+                        href="/category/poems">Turn this page</a
+                    >
                         <span
                             class="material-symbols-outlined text-on-tertiary-container"
                             >auto_stories</span
@@ -177,26 +174,19 @@ const categoriesFiltered =
                     </div>
                     <div class="flex-1">
                         <h2 class="text-4xl font-headline italic mb-4">
-                            Rambling
+                            Random Thoughts
                         </h2>
                         <p class="text-on-surface-variant leading-relaxed mb-6">
                             The unguided walks of the mind. Topics range from
-                            the philosophy of coffee to the architecture of
-                            dreams. No destination, only the journey of a
-                            curious spirit.
+                            random talks and scattered ideas that required penning down. 
+                            No destination, only the journey of a
+                            curious spirit. Sometimes written, other times curated from the world
                         </p>
                         <div class="flex flex-wrap gap-3">
-                            <span
-                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest"
-                                >Philosophy</span
-                            >
-                            <span
-                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest"
-                                >Art</span
-                            >
-                            <span
-                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest"
-                                >Wandering</span
+                            <a
+                                href="/category/others"
+                                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] uppercase font-label tracking-widest hover:bg-surface-container/80 transition-colors"
+                                >Explore Others</a
                             >
                         </div>
                     </div>
@@ -207,7 +197,7 @@ const categoriesFiltered =
                 categoriesFiltered.map(
                     (ctFiltered) =>
                         ctFiltered?.name && (
-                            <div class="md:col-span-6 group">
+                            <a class="md:col-span-6 group" href={`/category/${ctFiltered.slug.current}`}>
                                 <div class="bg-surface-container-highest rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center border-b border-outline-variant/20">
                                     <h2 class="text-2xl font-headline italic mb-2">
                                         {ctFiltered.name}
@@ -216,7 +206,7 @@ const categoriesFiltered =
                                         {ctFiltered.description}
                                     </p>
                                 </div>
-                            </div>
+                            </a>
                         ),
                 )
             }
